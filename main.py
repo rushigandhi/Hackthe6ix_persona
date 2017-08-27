@@ -36,9 +36,9 @@ def get_all_tweets(screen_name):
 
         print("...%s tweets downloaded so far" % (len(alltweets)))
 
+        output = list()
 
     for i in range (len(alltweets)):
-        output = list()
         analysis = TextBlob(alltweets[i].text)
         words = alltweets[i].text.split()
         misspelled = list()
@@ -67,7 +67,9 @@ def get_all_tweets(screen_name):
         elif len(misspelled) != 0:
             output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + "null" + "*" + str(misspelled) + "*" + "null" + "*" + "null")
 
-        print(output)
+    for i in range(len(output)):
+        print(output[i])
+
 
 
 

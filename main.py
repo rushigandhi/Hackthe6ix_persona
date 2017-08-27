@@ -1,6 +1,9 @@
 import tweepy
 import config
 from textblob import TextBlob
+from textblob import Word
+import vulgar_terms
+import enchant
 
 consumer_key = config.consumer_key
 consumer_secret = config.consumer_secret
@@ -38,37 +41,38 @@ def get_all_tweets(screen_name):
     totalPolw0 = 0
 
     for i in range (len(alltweets)):
-        print(alltweets[i].text)
+        output = list()
         analysis = TextBlob(alltweets[i].text)
+        words = alltweets[i].text.split()
+        misspelled = list()
+        vulgar = list()
+        for x in range (len(words)):
+            if words[x] in vulgar_terms.bad_words.keys():
+                vulgar.append(words[x])
 
-    for tweet in alltweets:
-        print(tweet.text)
-        analysis = TextBlob(tweet.text)
-        print(analysis.sentiment)
+            spellword = words[x]
+            if spellword.startswith("@") == False and spellword.endswith(",") == False and spellword.startswith("https://") == False and spellword.startswith("http://") == False and enchant.Dict("en_US").check(words[x])  == False:
+                misspelled.append(words[x])
+        # print(alltweets[i].id_str, alltweets[i].created_at, alltweets[i].text, analysis.sentiment, vulgar)
 
-        if analysis.sentiment.polarity != 0:
-            totalTweetswo0 += 1
-            totalPolwo0 += analysis.sentiment.polarity
-        totalPolw0 += analysis.sentiment.polarity
+        if analysis.sentiment.polarity <= 0.2 and analysis.sentiment.subjectivity >= 0.5:
+            if len(vulgar) != 0 and len(misspelled) != 0:
+                output.append(str(alltweets[i].text) + " MISPELLED WORDS " + str(misspelled) + " and " + " BAD WORDS " + str(vulgar) + " and you are NEGATIVE AND SUBJECTIVE " + str(analysis.sentiment))
+            elif len(vulgar) != 0:
+                output.append(str(alltweets[i].text) + " BAD WORDS " + str(vulgar) + " and you are NEGATIVE AND SUBJECTIVE " + str(analysis.sentiment))
+            elif len(misspelled) != 0:
+                output.append(str(alltweets[i].text) + " MISPELLED WORDS " + str(misspelled) + " and you are NEGATIVE AND SUBJECTIVE " + str(analysis.sentiment))
+            else:
+                output.append(str(alltweets[i].text) + " you are NEGATIVE AND SUBJECTIVE " + str(analysis.sentiment))
+        elif len(vulgar) != 0 and len(misspelled) != 0:
+            output.append(str(alltweets[i].text) + " MISPELLED WORDS " + str(misspelled) + " and " + " BAD WORDS " + str(vulgar))
+        elif len(vulgar) != 0:
+            output.append(str(alltweets[i].text) + " BAD WORDS " + str(vulgar))
+        elif len(misspelled) != 0:
+            output.append(str(alltweets[i].text) + " MISPELLED WORDS " + str(misspelled))
 
-    meanPolw0 = totalPolw0/len(alltweets)
-    meanPolwo0 = totalPolwo0/totalTweetswo0
 
-    if meanPolwo0 >= 0.5:
-        print("Your Twitter is great and the mean polarity w/o 0s is " + str(meanPolwo0) + ". Keep up the good work!" )
 
-    elif meanPolwo0 <= -0.5:
-        print("Your Twitter is negative and the mean polarity is w/o 0s " + str(meanPolwo0) + ". Please make some changes!" )
-    elif -0.5 < meanPolwo0 < 0.5:
-        print ("Your Twitter is neutral and the mean polarity is w/o 0s " + str(meanPolwo0) + ".")
-
-    if meanPolw0 >= 0.5:
-        print("Your Twitter is great and the mean polarity with 0s is " + str(meanPolw0) + ". Keep up the good work!" )
-
-    elif meanPolw0 <= -0.5:
-        print("Your Twitter is negative and the mean polarity is with 0s " + str(meanPolw0) + ". Please make some changes!" )
-    elif -0.5 < meanPolw0 < 0.5:
-        print ("Your Twitter is neutral and the mean polarity is with 0s " + str(meanPolw0) + ".")
 
 
 if __name__ == '__main__':

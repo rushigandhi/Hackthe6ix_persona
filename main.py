@@ -7,6 +7,7 @@ consumer_secret = config.consumer_secret
 access_token = config.access_token
 access_token_secret = config.access_token_secret
 
+
 def get_all_tweets(screen_name):
 
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -32,7 +33,6 @@ def get_all_tweets(screen_name):
 
         print("...%s tweets downloaded so far" % (len(alltweets)))
 
-
     totalPolwo0 = 0
     totalTweetswo0 = 0
     totalPolw0 = 0
@@ -40,7 +40,12 @@ def get_all_tweets(screen_name):
     for i in range (len(alltweets)):
         print(alltweets[i].text)
         analysis = TextBlob(alltweets[i].text)
+
+    for tweet in alltweets:
+        print(tweet.text)
+        analysis = TextBlob(tweet.text)
         print(analysis.sentiment)
+
         if analysis.sentiment.polarity != 0:
             totalTweetswo0 += 1
             totalPolwo0 += analysis.sentiment.polarity
@@ -64,8 +69,6 @@ def get_all_tweets(screen_name):
         print("Your Twitter is negative and the mean polarity is with 0s " + str(meanPolw0) + ". Please make some changes!" )
     elif -0.5 < meanPolw0 < 0.5:
         print ("Your Twitter is neutral and the mean polarity is with 0s " + str(meanPolw0) + ".")
-
-
 
 
 if __name__ == '__main__':

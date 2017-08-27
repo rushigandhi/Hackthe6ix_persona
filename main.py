@@ -36,9 +36,6 @@ def get_all_tweets(screen_name):
 
         print("...%s tweets downloaded so far" % (len(alltweets)))
 
-    totalPolwo0 = 0
-    totalTweetswo0 = 0
-    totalPolw0 = 0
 
     for i in range (len(alltweets)):
         output = list()
@@ -54,25 +51,21 @@ def get_all_tweets(screen_name):
             if spellword.startswith("@") == False and spellword.endswith(",") == False and spellword.startswith("https://") == False and spellword.startswith("http://") == False and enchant.Dict("en_US").check(words[x])  == False:
                 misspelled.append(words[x])
 
-
-
-
-
-        if analysis.sentiment.polarity <= 0.2 and analysis.sentiment.subjectivity >= 0.5:
+        if analysis.sentiment.polarity <= -0.2 and analysis.sentiment.subjectivity >= 0.5:
             if len(vulgar) != 0 and len(misspelled) != 0:
-                output.append(str(alltweets[i].text) + " MISPELLED WORDS " + str(misspelled) + " and " + " BAD WORDS " + str(vulgar) + " and you are NEGATIVE AND SUBJECTIVE " + str(analysis.sentiment))
+                output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + str(vulgar) + "*" + str(misspelled) + "*" + str(analysis.sentiment.polarity) + "*" + str(analysis.sentiment.subjectivity))
             elif len(vulgar) != 0:
-                output.append(str(alltweets[i].text) + " BAD WORDS " + str(vulgar) + " and you are NEGATIVE AND SUBJECTIVE " + str(analysis.sentiment))
+                output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + str(vulgar) + "*" + "null" + "*" + str(analysis.sentiment.polarity) + "*" + str(analysis.sentiment.subjectivity))
             elif len(misspelled) != 0:
-                output.append(str(alltweets[i].text) + " MISPELLED WORDS " + str(misspelled) + " and you are NEGATIVE AND SUBJECTIVE " + str(analysis.sentiment))
+                output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + "null" + "*" + str(misspelled) + "*" + str(analysis.sentiment.polarity) + "*" + str(analysis.sentiment.subjectivity))
             else:
-                output.append(str(alltweets[i].text) + " you are NEGATIVE AND SUBJECTIVE " + str(analysis.sentiment))
+                output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + "null" + "*" + "null" + "*" + str(analysis.sentiment.polarity) + "*" + str(analysis.sentiment.subjectivity))
         elif len(vulgar) != 0 and len(misspelled) != 0:
-            output.append(str(alltweets[i].text) + " MISPELLED WORDS " + str(misspelled) + " and " + " BAD WORDS " + str(vulgar))
+            output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + str(vulgar) + "*" + str(misspelled) + "*" + "null" + "*" + "null")
         elif len(vulgar) != 0:
-            output.append(str(alltweets[i].text) + " BAD WORDS " + str(vulgar))
+            output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + str(vulgar) + "*" + "null" + "*" + "null" + "*" + "null")
         elif len(misspelled) != 0:
-            output.append(str(alltweets[i].text) + " MISPELLED WORDS " + str(misspelled))
+            output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + "null" + "*" + str(misspelled) + "*" + "null" + "*" + "null")
 
         print(output)
 

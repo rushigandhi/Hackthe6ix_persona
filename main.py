@@ -53,7 +53,10 @@ def get_all_tweets(screen_name):
             spellword = words[x]
             if spellword.startswith("@") == False and spellword.endswith(",") == False and spellword.startswith("https://") == False and spellword.startswith("http://") == False and enchant.Dict("en_US").check(words[x])  == False:
                 misspelled.append(words[x])
-        # print(alltweets[i].id_str, alltweets[i].created_at, alltweets[i].text, analysis.sentiment, vulgar)
+
+
+
+
 
         if analysis.sentiment.polarity <= 0.2 and analysis.sentiment.subjectivity >= 0.5:
             if len(vulgar) != 0 and len(misspelled) != 0:
@@ -71,6 +74,7 @@ def get_all_tweets(screen_name):
         elif len(misspelled) != 0:
             output.append(str(alltweets[i].text) + " MISPELLED WORDS " + str(misspelled))
 
+        print(output)
 
 
 

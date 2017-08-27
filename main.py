@@ -30,13 +30,41 @@ def get_all_tweets(screen_name):
 
         oldest = alltweets[-1].id - 1
 
-        print ("...%s tweets downloaded so far" % (len(alltweets)))
+        print("...%s tweets downloaded so far" % (len(alltweets)))
 
 
-    for tweet in alltweets:
-        print(tweet.text)
-        analysis = TextBlob(tweet.text)
+    totalPolwo0 = 0
+    totalTweetswo0 = 0
+    totalPolw0 = 0
+
+    for i in range (len(alltweets)):
+        print(alltweets[i].text)
+        analysis = TextBlob(alltweets[i].text)
         print(analysis.sentiment)
+        if analysis.sentiment.polarity != 0:
+            totalTweetswo0 += 1
+            totalPolwo0 += analysis.sentiment.polarity
+        totalPolw0 += analysis.sentiment.polarity
+
+    meanPolw0 = totalPolw0/len(alltweets)
+    meanPolwo0 = totalPolwo0/totalTweetswo0
+
+    if meanPolwo0 >= 0.5:
+        print("Your Twitter is great and the mean polarity w/o 0s is " + str(meanPolwo0) + ". Keep up the good work!" )
+
+    elif meanPolwo0 <= -0.5:
+        print("Your Twitter is negative and the mean polarity is w/o 0s " + str(meanPolwo0) + ". Please make some changes!" )
+    elif -0.5 < meanPolwo0 < 0.5:
+        print ("Your Twitter is neutral and the mean polarity is w/o 0s " + str(meanPolwo0) + ".")
+
+    if meanPolw0 >= 0.5:
+        print("Your Twitter is great and the mean polarity with 0s is " + str(meanPolw0) + ". Keep up the good work!" )
+
+    elif meanPolw0 <= -0.5:
+        print("Your Twitter is negative and the mean polarity is with 0s " + str(meanPolw0) + ". Please make some changes!" )
+    elif -0.5 < meanPolw0 < 0.5:
+        print ("Your Twitter is neutral and the mean polarity is with 0s " + str(meanPolw0) + ".")
+
 
 
 

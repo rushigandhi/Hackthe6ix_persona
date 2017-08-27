@@ -10,64 +10,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
-<body>
-    <nav>
-        <div class="nav-wrapper blue darken-1 left-aligned fixed">
-          <a href="#" class="brand-logo">HackThe6ix</a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="#">Analyze My Twitter</a></li>
-            <li><a href="#">Purpose</a></li>
-            <li><a href="#">About Us</a></li>
-          </ul>
-        </div>
-    </nav>
+<body style="background-image:url('static/images/bg.jpg');">
+    <!--<nav>-->
+        <!--<div class="nav-wrapper blue darken-1 center fixed">-->
+          <!--<a href="#" class="brand-logo">persona.</a>-->
+          <!--<ul id="nav-mobile" class="right hide-on-med-and-down">-->
+          <!--</ul>-->
+        <!--</div>-->
+    <!--</nav>-->
 
     <main>
      <div class="row">
-         <form action="/" method="post">
-             <span onclick="submit()">
-                  <button class="btn waves-effect waves-light" type="submit" name="action" onclick="submit()">Submit
-                    <i class="material-icons right">send</i>
-                  </button>
-             </span>
-             <div class="input-field col s6">
-              <input value="{{ user_handle }}" id="twitter_handle" name="text" type="text" class="validate">
-              <label class="active" for="twitter_handle">Twitter Handle</label>
+           <div class="card col s6 offset-s3 m6 offset-m3 l6 offset-l3">
+               <div class="row">
+                    <div class="card-image waves-effect waves-block waves-light col s6 offset-s3 m6 offset-m3 l6 offset-l3">
+                      <img class="activator" src="static/images/twitter-verify.png">
+                    </div>
+               </div>
+            <div class="card-content">
+              <span class="card-title activator grey-text text-darken-4"><b>person</b>a.<i class="material-icons right">more_vert</i></span>
+                <form action="/" method="post">
+                 <span onclick="submit()">
+                      <button class="blue lighten-3 btn waves-effect waves-light validate active" type="submit" name="action" onclick="submit()">Submit
+                        <i class="material-icons right">send</i>
+                      </button>
+                 </span>
+                     <div class=" input-field col s6">
+                      <input value="{{ user_handle }}" id="twitter_handle" name="text" type="text">
+                      <label class="active" for="twitter_handle">Twitter Handle</label>
+                    </div>
+                </form>
             </div>
-        </form>
+            <div class="card-reveal">
+              <span class="card-title grey-text text-darken-4">Loading...<i class="material-icons right">close</i></span>
+              <p>Here is some more information about this product that is only revealed once clicked on.</p>
+            </div>
+          </div>
+
       </div>
 
-      <h3 id="loading-status">{{ loading_status }}</h3>
+      <h6 id="loading-status"><i>{{ loading_status }}<i></h6>
 
-      {% for tweet in tweets %}
-        <p>{{ tweet.text }}</p>
+      <div class="row">
+          {% for tweet in data %}
+              <div class="card blue lighten-1 col s6 offset-s3 m6 offset-m3 l6 offset-l3">
+                <div class="card-content">
+                  <span class="white-text card-title"><h3>"{{ tweet[1] }}"</h3></span>
+                    <h5 class="pink-text text-lighten-5">Profanity: {{ tweet[2] }}</h5>
+                    <h5 class="lime-text text-lighten-3">Misspelling: {{ tweet[3] }}</h5>
+                    <h5 class="light-green-text text-accent-2">Negativity: {{ tweet[4] }}</h5>
+                    <h5 class="light-blue-text text-lighten-4">Subjectiveness: {{ tweet[5] }}</h5>
+                </div>
+                <div class="card-action">
+                  <h6 class="white-text"><a class="white-text" href="https://twitter.com/{{ user_handle }}/status/{{ tweet[0] }}" >Change This Tweet</a></h6>
+                </div>
+              </div>
       {% endfor %}
+      </div>
 
     </main>
 
-    <footer class="page-footer blue darken-1">
-      <div class="container">
-        <div class="row">
-          <div class="col l6 s12">
-            <h5 class="white-text">Issa Footer</h5>
-            <p class="grey-text text-lighten-4">Issa application that helps you clean your Twitter before copping a job at Google!</p>
-          </div>
-          <div class="col l4 offset-l2 s12">
-            <h5 class="white-text">Links</h5>
-            <ul>
-              <li><a class="grey-text text-lighten-3" href="#!">Analyze My Twitter</a></li>
-              <li><a class="grey-text text-lighten-3" href="#!">Purpose</a></li>
-              <li><a class="grey-text text-lighten-3" href="#!">About Us</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="footer-copyright">
-        <div class="container">
-        © 2017 HackThe6ix Gang
-        </div>
-      </div>
-    </footer>
+    <!--<footer class="page-footer blue darken-1">-->
+      <!--<div class="container">-->
+        <!--<div class="row">-->
+          <!--<div class="col l6 s12">-->
+            <!--<h5 class="white-text"><i>HackThe<b>6ix</b></i></h5>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</footer>-->
 
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

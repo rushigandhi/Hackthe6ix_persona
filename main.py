@@ -7,6 +7,7 @@ consumer_secret = config.consumer_secret
 access_token = config.access_token
 access_token_secret = config.access_token_secret
 
+
 def get_all_tweets(screen_name):
 
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -32,12 +33,10 @@ def get_all_tweets(screen_name):
 
         print ("...%s tweets downloaded so far" % (len(alltweets)))
 
-
     for tweet in alltweets:
         print(tweet.text)
         analysis = TextBlob(tweet.text)
         print(analysis.sentiment)
-
 
 
 if __name__ == '__main__':

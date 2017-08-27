@@ -102,6 +102,7 @@ ENV/
 
 # config-files
 config.py
+config.pyc
 
 # Created by https://www.gitignore.io/api/intellij
 

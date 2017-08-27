@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="static/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="static/css/style.css"/>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper blue darken-1 left-aligned fixed">
+          <a href="#" class="brand-logo">HackThe6ix</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="#">Analyze My Twitter</a></li>
+            <li><a href="#">Purpose</a></li>
+            <li><a href="#">About Us</a></li>
+          </ul>
+        </div>
+    </nav>
+
+    <main>
+     <div class="row">
+         <form action="/" method="post">
+             <span onclick="submit()">
+                  <button class="btn waves-effect waves-light" type="submit" name="action" onclick="submit()">Submit
+                    <i class="material-icons right">send</i>
+                  </button>
+             </span>
+             <div class="input-field col s6">
+              <input value="{{ user_handle }}" id="twitter_handle" name="text" type="text" class="validate">
+              <label class="active" for="twitter_handle">Twitter Handle</label>
+            </div>
+        </form>
+      </div>
+
+      <h3 id="loading-status">{{ loading_status }}</h3>
+
+      {% for tweet in tweets %}
+        <p>{{ tweet.text }}</p>
+      {% endfor %}
+
+    </main>
+
+    <footer class="page-footer blue darken-1">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Issa Footer</h5>
+            <p class="grey-text text-lighten-4">Issa application that helps you clean your Twitter before copping a job at Google!</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">Links</h5>
+            <ul>
+              <li><a class="grey-text text-lighten-3" href="#!">Analyze My Twitter</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">Purpose</a></li>
+              <li><a class="grey-text text-lighten-3" href="#!">About Us</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+        © 2017 HackThe6ix Gang
+        </div>
+      </div>
+    </footer>
+
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="static/js/materialize.min.js"></script>
+    <script>
+        function submit(){
+            console.log("test");
+            document.getElementById("loading-status").textContent = "Loading... Please wait (trigger gif)";
+        }
+    </script>
+</body>
+</html>

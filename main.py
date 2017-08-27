@@ -4,6 +4,9 @@ from textblob import TextBlob
 from textblob import Word
 import vulgar_terms
 import enchant
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 consumer_key = config.consumer_key
 consumer_secret = config.consumer_secret
@@ -41,41 +44,39 @@ def get_all_tweets(screen_name):
     for i in range (len(alltweets)):
         analysis = TextBlob(alltweets[i].text)
         words = alltweets[i].text.split()
-        misspelled = list()
-        vulgar = list()
+        misspelled = ""
+        vulgar = ""
         for x in range (len(words)):
             if words[x] in vulgar_terms.bad_words.keys():
-                vulgar.append(words[x])
+                vulgar += words[x] + ", "
 
             spellword = words[x]
             if spellword.startswith("@") == False and spellword.endswith(",") == False and spellword.startswith("https://") == False and spellword.startswith("http://") == False and enchant.Dict("en_US").check(words[x])  == False:
-                misspelled.append(words[x])
+                misspelled += words[x] + ", "
+
+        misspelled = misspelled[:len(misspelled)-2]
+        vulgar = vulgar[:len(vulgar) - 2]
 
         if analysis.sentiment.polarity <= -0.2 and analysis.sentiment.subjectivity >= 0.5:
             if len(vulgar) != 0 and len(misspelled) != 0:
                 output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + str(vulgar) + "*" + str(misspelled) + "*" + str(analysis.sentiment.polarity) + "*" + str(analysis.sentiment.subjectivity))
             elif len(vulgar) != 0:
-                output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + str(vulgar) + "*" + "null" + "*" + str(analysis.sentiment.polarity) + "*" + str(analysis.sentiment.subjectivity))
+                output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + str(vulgar) + "*" + "N/A" + "*" + str(analysis.sentiment.polarity) + "*" + str(analysis.sentiment.subjectivity))
             elif len(misspelled) != 0:
-                output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + "null" + "*" + str(misspelled) + "*" + str(analysis.sentiment.polarity) + "*" + str(analysis.sentiment.subjectivity))
+                output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + "N/A" + "*" + str(misspelled) + "*" + str(analysis.sentiment.polarity) + "*" + str(analysis.sentiment.subjectivity))
             else:
-                output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + "null" + "*" + "null" + "*" + str(analysis.sentiment.polarity) + "*" + str(analysis.sentiment.subjectivity))
+                output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + "N/A" + "*" + "N/A" + "*" + str(analysis.sentiment.polarity) + "*" + str(analysis.sentiment.subjectivity))
         elif len(vulgar) != 0 and len(misspelled) != 0:
-            output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + str(vulgar) + "*" + str(misspelled) + "*" + "null" + "*" + "null")
+            output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + str(vulgar) + "*" + str(misspelled) + "*" + "N/A" + "*" + "N/A")
         elif len(vulgar) != 0:
-            output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + str(vulgar) + "*" + "null" + "*" + "null" + "*" + "null")
+            output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + str(vulgar) + "*" + "N/A" + "*" + "N/A" + "*" + "N/A")
         elif len(misspelled) != 0:
-            output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + "null" + "*" + str(misspelled) + "*" + "null" + "*" + "null")
+            output.append(alltweets[i].id_str + "*" + alltweets[i].text + "*" + "N/A" + "*" + str(misspelled) + "*" + "N/A" + "*" + "N/A")
 
     for i in range(len(output)):
         print(output[i])
 
+    # for i in range(len(output)):
+    #     print(output[i])
 
-
-
-
-if __name__ == '__main__':
-    print("What is your Twitter id?")
-    username = raw_input()
-    print("Hello " + username + " we will help you fix your Twitter! Please press enter!")
-    get_all_tweets(username)
+    return output

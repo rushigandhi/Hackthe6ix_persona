@@ -14,12 +14,15 @@ def redirect_url(default='index'):
 def index():
     if request.method == 'POST':
         text = request.form['text']
+        final_tweet_data = []
         data = m.get_all_tweets(text)
-        all_tweets = data[0]
-        analysis_data = data[1]
-        return render_template('index.html', form=request.form, user_handle=text, loading_status="", tweets=all_tweets,
-                               analysis = analysis_data)
-    return render_template("index.html", user_handle="twitter-handle")
+
+        for tweet in data:
+            final_tweet_data.append(list(tweet.split("*")))
+
+        print data
+        return render_template('index.html', form=request.form, data=final_tweet_data, user_handle=text)
+    return render_template("index.html", user_handle="")
 
 if __name__ == "__main__":
     app.secret_key = "TRIAL"

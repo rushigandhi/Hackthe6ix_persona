@@ -2,10 +2,12 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    background-color: black;
 }
 
 main {
     flex: 1 0 auto;
+    background-image: url('images/bg.jpg')
 }
 
 .brand-logo{
@@ -22,3 +24,4 @@ main {
      -o-transform: translate(-50%, -50%)
      transform: translate(-50%, -50%);
 }
+
